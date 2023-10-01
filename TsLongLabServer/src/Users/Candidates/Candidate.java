@@ -2,13 +2,14 @@ package Users.Candidates;
 
 import Users.Persons.Person;
 import Users.Voters.Voter;
+import commonInterfaces.IPitch;
 
 import java.util.Objects;
 
 public class Candidate extends Person {
     private int rank; // rang comme identifiant unique
     private String firstNameLastName; // prénom et nom sous forme de chaîne unique
-    //private Pitch pitch;
+    private IPitch pitch;
 
 
     public Candidate(String name, String dateOfBirth, int rank, String firstNameLastName) {
@@ -31,6 +32,10 @@ public class Candidate extends Person {
 
     public void setFirstNameLastName(String firstNameLastName) {
         this.firstNameLastName = firstNameLastName;
+    }
+
+    public String getPitch() {
+        return pitch.getPitchContent();
     }
 
     @Override
