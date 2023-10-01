@@ -36,5 +36,4 @@ public class Vote {
         return Objects.hash(getCandidate(), getScore());
     }
 
-
 }

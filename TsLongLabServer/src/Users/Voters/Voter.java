@@ -54,6 +54,7 @@ public class Voter extends Person {
         }
 
         //sauvegarder le bulletin de vote dans le VotingBallotManager
+        ballot.setRegistrationDate();
         VotingBallotManager.getInstance().submitBallot(ballot);
         return ballot;
     }

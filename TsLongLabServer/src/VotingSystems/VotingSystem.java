@@ -10,19 +10,25 @@ import commonInterfaces.IVotingSystem;
 
 import java.util.*;
 
-public class VotingSystem implements IVotingSystem {
+public class VotingSystem {
     private VoterManager voterManager;
     private VotingBallotManager ballotManager;
     private VoteManager votesManager;
+    private boolean votingEnded;
 
     public VotingSystem() {
         voterManager = VoterManager.getInstance();
         ballotManager = VotingBallotManager.getInstance();
         votesManager = VoteManager.getInstance();
+        votingEnded = false;
     }
 
     // Faire voter tous les électeurs
     public void conductVoting() {
+        if(votingEnded) {
+            throw new IllegalStateException("Voting has already ended!");
+        }
+
         Set<Voter> allVoters = voterManager.getAllVoters();
 
         for (Voter voter : allVoters) {
@@ -33,6 +39,11 @@ public class VotingSystem implements IVotingSystem {
         }
     }
 
+    public void endVoting() {
+        votingEnded = true;
+        displayResults();
+    }
+
     // Récupérer le total des votes par candidat
     public Map<Candidate, Integer> getTotalVotesByCandidate() {
         return votesManager.getVotesByCandidate();
@@ -40,6 +51,10 @@ public class VotingSystem implements IVotingSystem {
 
     // Afficher les candidats par ordre de votes décroissants
     public void displayResults() {
+        if(!votingEnded) {
+            throw new IllegalStateException("Voting has not ended yet!");
+        }
+
         Map<Candidate, Integer> results = getTotalVotesByCandidate();
 
         // Trier les résultats
@@ -53,6 +68,4 @@ public class VotingSystem implements IVotingSystem {
     }
 }
 
-// Note : J'ai supposé que vous avez une classe VotesManager qui a la méthode getVotesByCandidate.
-// Assurez-vous d'intégrer tous les éléments nécessaires pour que cette classe fonctionne.
 

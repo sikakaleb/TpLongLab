@@ -7,10 +7,15 @@ import Votes.Vote;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-public class VotingBallot {
+public class VotingBallot implements Comparable<VotingBallot> {
     private Voter voter;
     private Map<Candidate, Vote> votes; // Une carte associant chaque candidat à un vote
+    private LocalDate registrationDate; // La date d'enregistrement du bulletin de vote
 
     public VotingBallot(Voter voter) {
         this.voter = voter;
@@ -32,6 +37,15 @@ public class VotingBallot {
         return voter;
     }
 
+    // Obtenir la date d'enregistrement du bulletin de vote
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate() {
+        this.registrationDate = LocalDate.now(); // initialise la date d'enregistrement à la date actuelle
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,6 +55,11 @@ public class VotingBallot {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getVoter(), votes);
+        return Objects.hash(getVoter(), votes, registrationDate);
+    }
+
+    @Override
+    public int compareTo(VotingBallot other) {
+        return this.registrationDate.compareTo(other.registrationDate);
     }
 }
