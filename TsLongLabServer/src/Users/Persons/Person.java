@@ -4,12 +4,8 @@ import java.util.Objects;
 
 public class Person {
 
-    private String name;
-    private String dateOfBirth;
-
-    public Person(String name) {
-        this.name = name;
-    }
+    protected String name;
+    protected String dateOfBirth;
 
     public Person(String name, String dateOfBirth) {
         this.name = name;
