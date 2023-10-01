@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/TpLongLab.iml" filepath="$PROJECT_DIR$/.idea/TpLongLab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TsLongLabClient/TsLongLabClient.iml" filepath="$PROJECT_DIR$/TsLongLabClient/TsLongLabClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TsLongLabServer/TsLongLabServer.iml" filepath="$PROJECT_DIR$/TsLongLabServer/TsLongLabServer.iml" />
+    </modules>
+  </component>
+</project>
