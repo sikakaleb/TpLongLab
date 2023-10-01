@@ -15,6 +15,8 @@ public class Voter extends Person {
     protected String studentNumber; // numéro d'étudiant comme identifiant unique
     protected String password;
 
+    private Boolean hasVoted = false;
+
     public Voter(String name, String dateOfBirth) {
         super(name, dateOfBirth);
     }
@@ -41,6 +43,7 @@ public class Voter extends Person {
     }
 
     public VotingBallot castVotes() {
+        setHasVoted();
         VotingBallot ballot = new VotingBallot(this);
         CandidateManager candidatesManager = CandidateManager.getInstance();
 
@@ -57,6 +60,14 @@ public class Voter extends Person {
         ballot.setRegistrationDate();
         VotingBallotManager.getInstance().submitBallot(ballot);
         return ballot;
+    }
+
+    public Boolean getHasVoted() {
+        return hasVoted;
+    }
+
+    public void setHasVoted() {
+        this.hasVoted = true;
     }
 
     private Vote getVoteForCandidate(Candidate candidate) {
