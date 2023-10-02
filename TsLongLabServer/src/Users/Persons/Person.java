@@ -2,7 +2,7 @@ package Users.Persons;
 
 import java.util.Objects;
 
-public class Person {
+public class Person  {
 
     protected String name;
     protected String dateOfBirth;

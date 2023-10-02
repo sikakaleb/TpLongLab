@@ -9,9 +9,10 @@ import Votes.InvalidVoteException;
 import Votes.Vote;
 import Votes.VoteManager;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Voter extends Person {
+public class Voter extends Person implements IVoter {
     protected String studentNumber; // numéro d'étudiant comme identifiant unique
     protected String password;
 
@@ -26,22 +27,27 @@ public class Voter extends Person {
         this.password = password;
     }
 
+    @Override
     public String getStudentNumber() {
         return studentNumber;
     }
 
+    @Override
     public void setStudentNumber(String studentNumber) {
         this.studentNumber = studentNumber;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
+    @Override
     public void setPassword(String password) {
         this.password = password;
     }
 
+    @Override
     public VotingBallot castVotes() {
         setHasVoted();
         VotingBallot ballot = new VotingBallot(this);
@@ -62,24 +68,14 @@ public class Voter extends Person {
         return ballot;
     }
 
+    @Override
     public Boolean getHasVoted() {
         return hasVoted;
     }
 
+    @Override
     public void setHasVoted() {
         this.hasVoted = true;
-    }
-
-    private Vote getVoteForCandidate(Candidate candidate) {
-        // Cette méthode doit être implémentée.
-        // Pour le moment, supposons qu'elle renvoie un vote aléatoire entre 0 et 3.
-        int randomScore = (int) (Math.random() * 4); // un score aléatoire entre 0 et 3
-        try {
-            return new Vote(candidate, randomScore);
-        } catch (InvalidVoteException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Override
