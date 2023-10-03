@@ -1,4 +1,4 @@
-package Users.commonInterfaces;
+package commonInterfaces;
 
 import java.io.Serializable;
 

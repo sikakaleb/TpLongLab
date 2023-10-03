@@ -1,4 +1,4 @@
-package Users.commonInterfaces;
+package commonInterfaces;
 
 import java.io.Serializable;
 
@@ -18,6 +18,10 @@ public interface IVoter extends Serializable {
     void setHasVoted();
 
     IVote getVoteForCandidate(ICandidate candidate);
+
+    public String getName();
+
+    public String getDateOfBirth();
 
     @Override
     boolean equals(Object o);

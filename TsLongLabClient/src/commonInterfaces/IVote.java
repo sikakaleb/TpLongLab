@@ -1,9 +1,10 @@
-package Users.commonInterfaces;
+package commonInterfaces;
 
 public interface IVote {
     ICandidate getCandidate();
 
     int getScore();
+
 
     @Override
     boolean equals(Object o);

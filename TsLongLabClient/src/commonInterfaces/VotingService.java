@@ -1,5 +1,4 @@
-package Users.commonInterfaces;
-
+package commonInterfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
