@@ -1,12 +1,11 @@
 package VotingSystems;
 
-import Users.Candidates.Candidate;
 import Users.Voters.Voter;
 import Users.Voters.VoterManager;
 import Votes.VoteManager;
-import VotingBallots.VotingBallot;
+import commonInterfaces.IVotingBallot;
 import VotingBallots.VotingBallotManager;
-import commonInterfaces.IVotingSystem;
+import commonInterfaces.ICandidate;
 
 import java.util.*;
 
@@ -33,7 +32,7 @@ public class VotingSystem {
 
         for (Voter voter : allVoters) {
             if (!ballotManager.hasVoted(voter)) {
-                VotingBallot ballot = voter.castVotes();
+                IVotingBallot ballot = voter.castVotes();
                 ballotManager.submitBallot(ballot);
             }
         }
@@ -45,7 +44,7 @@ public class VotingSystem {
     }
 
     // Récupérer le total des votes par candidat
-    public Map<Candidate, Integer> getTotalVotesByCandidate() {
+    public Map<ICandidate, Integer> getTotalVotesByCandidate() {
         return votesManager.getVotesByCandidate();
     }
 
@@ -55,15 +54,15 @@ public class VotingSystem {
             throw new IllegalStateException("Voting has not ended yet!");
         }
 
-        Map<Candidate, Integer> results = getTotalVotesByCandidate();
+        Map<ICandidate, Integer> results = getTotalVotesByCandidate();
 
         // Trier les résultats
-        List<Map.Entry<Candidate, Integer>> sortedResults = new ArrayList<>(results.entrySet());
-        sortedResults.sort(Map.Entry.<Candidate, Integer>comparingByValue().reversed());
+        List<Map.Entry<ICandidate, Integer>> sortedResults = new ArrayList<>(results.entrySet());
+        sortedResults.sort(Map.Entry.<ICandidate, Integer>comparingByValue().reversed());
 
         // Afficher les résultats
-        for (Map.Entry<Candidate, Integer> entry : sortedResults) {
-            System.out.println(entry.getKey().getName() + ": " + entry.getValue() + " votes");
+        for (Map.Entry<ICandidate, Integer> entry : sortedResults) {
+            System.out.println(entry.getKey().getFirstNameLastName() + ": " + entry.getValue() + " votes");
         }
     }
 }

@@ -1,4 +1,4 @@
-package commonInterfaces;
+package Users.commonInterfaces;
 
 public interface IVotingSystem {
 }

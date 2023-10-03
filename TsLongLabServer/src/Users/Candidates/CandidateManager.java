@@ -1,11 +1,13 @@
 package Users.Candidates;
 
+import commonInterfaces.ICandidate;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class CandidateManager {
     private static CandidateManager instance;
-    private Set<Candidate> candidates;
+    private Set<ICandidate> candidates;
 
     public CandidateManager() {
         candidates = new HashSet<>();
@@ -19,18 +21,18 @@ public class CandidateManager {
     }
 
     // Ajouter un candidat. Retourne false si le candidat existe déjà.
-    public boolean addCandidate(Candidate candidate) {
+    public boolean addCandidate(ICandidate candidate) {
         return candidates.add(candidate);
     }
 
     // Supprimer un candidat
-    public boolean removeCandidate(Candidate candidate) {
+    public boolean removeCandidate(ICandidate candidate) {
         return candidates.remove(candidate);
     }
 
     // Rechercher un candidat par son rang
-    public Candidate findByRank(int rank) {
-        for (Candidate c : candidates) {
+    public ICandidate findByRank(int rank) {
+        for (ICandidate c : candidates) {
             if (c.getRank() == rank) {
                 return c;
             }
@@ -38,7 +40,7 @@ public class CandidateManager {
         return null;
     }
 
-    public Set<Candidate> getCandidates() {
+    public Set<ICandidate> getCandidates() {
         return new HashSet<>(candidates);  // Retourner une copie pour éviter les modifications non contrôlées
     }
     // D'autres méthodes comme la sauvegarde/chargement, le tri, le filtrage, etc. peuvent être ajoutées ici.

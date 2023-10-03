@@ -1,14 +1,15 @@
 package Votes;
 
-import Users.Candidates.Candidate;
+import commonInterfaces.ICandidate;
+import commonInterfaces.IVote;
 
 import java.util.Objects;
 
-public class Vote {
-    private Candidate candidate;
+public class Vote implements IVote {
+    private ICandidate candidate;
     private int score;
 
-    public Vote(Candidate candidate, int score) throws InvalidVoteException {
+    public Vote(ICandidate candidate, int score) throws InvalidVoteException {
         if (score < 0 || score > 3) {
             throw new InvalidVoteException("Score must be between 0 and 3");
         }
@@ -16,10 +17,12 @@ public class Vote {
         this.score = score;
     }
 
-    public Candidate getCandidate() {
+    @Override
+    public ICandidate getCandidate() {
         return candidate;
     }
 
+    @Override
     public int getScore() {
         return score;
     }

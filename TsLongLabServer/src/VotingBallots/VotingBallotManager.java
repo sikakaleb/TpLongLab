@@ -1,6 +1,8 @@
 package VotingBallots;
 
 import Users.Voters.Voter;
+import commonInterfaces.IVoter;
+import commonInterfaces.IVotingBallot;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +12,7 @@ public class VotingBallotManager {
     private static VotingBallotManager instance;
 
     // Map pour stocker les bulletins de vote, utilisant le Voter comme clé
-    private Set<VotingBallot> ballots;
+    private Set<IVotingBallot> ballots;
 
     // Constructeur privé pour le pattern Singleton
     private VotingBallotManager() {
@@ -26,13 +28,13 @@ public class VotingBallotManager {
     }
 
     // Ajouter un bulletin de vote
-    public void submitBallot(VotingBallot ballot) {
+    public void submitBallot(IVotingBallot ballot) {
         ballots.add(ballot);
     }
 
     // Obtenir le bulletin de vote d'un électeur
-    public VotingBallot getBallotForVoter(Voter voter) {
-        for (VotingBallot ballot : ballots) {
+    public IVotingBallot getBallotForVoter(IVoter voter) {
+        for (IVotingBallot ballot : ballots) {
             if (ballot.getVoter().equals(voter)) {
                 return ballot;
             }
@@ -42,7 +44,7 @@ public class VotingBallotManager {
 
     // Vérifier si un électeur a déjà voté
     public boolean hasVoted(Voter voter) {
-        for (VotingBallot ballot : ballots) {
+        for (IVotingBallot ballot : ballots) {
             if (ballot.getVoter().equals(voter)) {
                 return true;
             }

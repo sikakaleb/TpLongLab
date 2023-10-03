@@ -1,15 +1,17 @@
 package Users.Voters;
 
-import Users.Candidates.Candidate;
 import Users.Candidates.CandidateManager;
 import Users.Persons.Person;
+import commonInterfaces.IVote;
+import commonInterfaces.IVotingBallot;
 import VotingBallots.VotingBallot;
 import VotingBallots.VotingBallotManager;
 import Votes.InvalidVoteException;
 import Votes.Vote;
 import Votes.VoteManager;
+import commonInterfaces.ICandidate;
+import commonInterfaces.IVoter;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 public class Voter extends Person implements IVoter {
@@ -48,15 +50,15 @@ public class Voter extends Person implements IVoter {
     }
 
     @Override
-    public VotingBallot castVotes() {
+    public IVotingBallot castVotes() {
         setHasVoted();
-        VotingBallot ballot = new VotingBallot(this);
+        IVotingBallot ballot = new VotingBallot((IVoter) this);
         CandidateManager candidatesManager = CandidateManager.getInstance();
 
-        for (Candidate candidate : candidatesManager.getCandidates()) {
+        for (ICandidate candidate : candidatesManager.getCandidates()) {
             // Supposons qu'il y ait une méthode pour obtenir un vote pour un candidat.
             // Cela pourrait être une interaction utilisateur ou une logique spécifique.
-            Vote vote = getVoteForCandidate(candidate);
+            IVote vote = getVoteForCandidate(candidate);
             //sauvegarder le vote dans le VoteManager
             VoteManager.getInstance().recordVote(vote);
             ballot.addVote(candidate, vote);
@@ -66,6 +68,23 @@ public class Voter extends Person implements IVoter {
         ballot.setRegistrationDate();
         VotingBallotManager.getInstance().submitBallot(ballot);
         return ballot;
+    }
+    @Override
+    public IVote getVoteForCandidate(ICandidate candidate) {
+        // Cette méthode doit être implémentée.
+        // Pour le moment, supposons qu'elle renvoie un vote aléatoire entre 0 et 3.
+        int randomScore = (int) (Math.random() * 4); // un score aléatoire entre 0 et 3
+        try {
+            return new Vote(candidate, randomScore);
+        } catch (InvalidVoteException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
     }
 
     @Override

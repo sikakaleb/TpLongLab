@@ -1,47 +1,52 @@
 package VotingBallots;
 
-import Users.Candidates.Candidate;
-import Users.Voters.Voter;
-import Votes.Vote;
+import commonInterfaces.IVote;
+import commonInterfaces.ICandidate;
+import commonInterfaces.IVoter;
+import commonInterfaces.IVotingBallot;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
-public class VotingBallot implements Comparable<VotingBallot> {
-    private Voter voter;
-    private Map<Candidate, Vote> votes; // Une carte associant chaque candidat à un vote
-    private LocalDate registrationDate; // La date d'enregistrement du bulletin de vote
+public class VotingBallot implements IVotingBallot {
+    private IVoter voter;
+    private Map<ICandidate, IVote> votes; // Une carte associant chaque candidat à un vote
 
-    public VotingBallot(Voter voter) {
+    private LocalDate registrationDate = LocalDate.now(); // La date d'enregistrement du bulletin de vote
+
+
+    public VotingBallot(IVoter voter) {
         this.voter = voter;
         this.votes = new HashMap<>();
     }
 
     // Ajoute un vote pour un candidat
-    public void addVote(Candidate candidate, Vote vote) {
+    @Override
+    public void addVote(ICandidate candidate, IVote vote) {
         votes.put(candidate, vote);
     }
 
     // Obtenir le vote pour un candidat spécifique
-    public Vote getVoteForCandidate(Candidate candidate) {
+    @Override
+    public IVote getVoteForCandidate(ICandidate candidate) {
         return votes.get(candidate);
     }
 
     // Obtenir le votant associé à ce bulletin de vote
-    public Voter getVoter() {
+    @Override
+    public IVoter getVoter() {
         return voter;
     }
 
     // Obtenir la date d'enregistrement du bulletin de vote
+    @Override
     public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
+    @Override
     public void setRegistrationDate() {
         this.registrationDate = LocalDate.now(); // initialise la date d'enregistrement à la date actuelle
     }
@@ -59,7 +64,7 @@ public class VotingBallot implements Comparable<VotingBallot> {
     }
 
     @Override
-    public int compareTo(VotingBallot other) {
-        return this.registrationDate.compareTo(other.registrationDate);
+    public int compareTo(IVotingBallot other) {
+        return this.registrationDate.compareTo(other.getRegistrationDate());
     }
 }
