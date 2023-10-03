@@ -17,6 +17,12 @@ public class Candidate  implements ICandidate {
     public Candidate(int rank, String firstNameLastName, IPitch pitch) {
         this.rank = rank;
         this.firstNameLastName = firstNameLastName;
+        this.pitch = pitch;
+    }
+
+    public Candidate(int rank, String firstNameLastName) {
+        this.rank = rank;
+        this.firstNameLastName = firstNameLastName;
     }
 
     @Override

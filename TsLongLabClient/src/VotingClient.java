@@ -1,9 +1,11 @@
+import VotingSystems.VotingMaterials;
 import commonInterfaces.ICandidate;
 import commonInterfaces.VotingService;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
+import java.util.Scanner;
 
 public class VotingClient {
     public static void main(String[] args) {
@@ -13,6 +15,16 @@ public class VotingClient {
 
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             VotingService service = (VotingService) registry.lookup("voting");
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Veuillez entrer votre numéro d'étudiant:");
+            String studentNumber = scanner.nextLine();
+            System.out.println("Veuillez entrer votre mot de passe:");
+            String password = scanner.nextLine();
+            VotingMaterials otp = service.requestVotingMaterials(studentNumber);
+            System.out.println("Votre OTP est: " + otp);
+
+
 
             List<ICandidate> candidates = service.getCandidates();
             // Afficher un message de succès si la communication est réussie

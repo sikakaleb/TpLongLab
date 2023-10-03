@@ -43,7 +43,7 @@ public class VotingBallotManager {
     }
 
     // Vérifier si un électeur a déjà voté
-    public boolean hasVoted(Voter voter) {
+    public boolean hasVoted(IVoter voter) {
         for (IVotingBallot ballot : ballots) {
             if (ballot.getVoter().equals(voter)) {
                 return true;

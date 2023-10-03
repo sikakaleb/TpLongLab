@@ -1,10 +1,13 @@
 package VotingSystems;
 
-import Users.Voters.Voter;
+import Exceptions.BadCredentialsException;
+import Exceptions.HasAlreadyVotedException;
+import Users.Candidates.CandidateManager;
 import Users.Voters.VoterManager;
 import Votes.VoteManager;
 import VotingBallots.VotingBallotManager;
 import commonInterfaces.ICandidate;
+import commonInterfaces.IVoter;
 import commonInterfaces.IVotingBallot;
 
 import java.util.ArrayList;
@@ -26,14 +29,14 @@ public class VotingSystem {
     }
 
     // Faire voter tous les électeurs
-    public void conductVoting() {
+    public void conductVoting() throws HasAlreadyVotedException, BadCredentialsException {
         if(votingEnded) {
             throw new IllegalStateException("Voting has already ended!");
         }
 
-        Set<Voter> allVoters = voterManager.getAllVoters();
+        Set<IVoter> allVoters = voterManager.getAllVoters();
 
-        for (Voter voter : allVoters) {
+        for (IVoter voter : allVoters) {
             if (!ballotManager.hasVoted(voter)) {
                 IVotingBallot ballot = voter.castVotes();
                 ballotManager.submitBallot(ballot);
@@ -68,6 +71,13 @@ public class VotingSystem {
             System.out.println(entry.getKey().getFirstNameLastName() + ": " + entry.getValue() + " votes");
         }
     }
+
+    public VotingMaterials getVotingMaterialsForVoter(IVoter voter) {
+        // Récupérer la liste des candidats et d'autres informations si nécessaire
+        List<ICandidate> candidates = CandidateManager.getInstance().getCandidates().stream().toList();
+        return new VotingMaterials(candidates);
+    }
+
 }
 
 

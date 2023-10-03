@@ -1,14 +1,17 @@
 package AdminManagement;
 
 import Users.Candidates.Candidate;
+import Users.Candidates.CandidateManager;
 import Users.Candidates.Pitch.TextPitch;
 import Users.Voters.Voter;
+import Users.Voters.VoterManager;
 import commonInterfaces.ICandidate;
 import commonInterfaces.IVoter;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class AdminApp {
     private List<IVoter> voters;
@@ -25,37 +28,44 @@ public class AdminApp {
     }
 
     public void addVoter(IVoter voter) {
-        voters.add(voter);
+        VoterManager.getInstance().registerVoter(voter);
     }
 
     public void addCandidate(ICandidate candidate) {
-        candidates.add(candidate);
+        CandidateManager.getInstance().addCandidate(candidate);
     }
 
+
     public void saveDataToFile() {
+        // Utilisez VoterManager pour obtenir la liste des votants
+        Set<IVoter> allVoters = VoterManager.getInstance().getAllVoters();
+
         // Sauvegarder les votants
         try (BufferedWriter bwVoters = new BufferedWriter(new FileWriter(VOTERS_FILE))) {
-            for (IVoter voter : voters) {
-                bwVoters.write(String.format("%s,%s,%s,%s%n",
-                        voter.getName(), voter.getDateOfBirth(), voter.getStudentNumber(), voter.getPassword()));
+            for (IVoter voter : allVoters) {
+                bwVoters.write(String.format("%s,%s,%s,%s,%s,%n",
+                        voter.getName(), voter.getDateOfBirth(), voter.getStudentNumber(), voter.getPassword(), voter.getOtp()));
             }
             System.out.println("Votants sauvegardés avec succès!");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // Utilisez CandidateManager pour obtenir la liste des candidats
+        List<ICandidate> allCandidates = CandidateManager.getInstance().getCandidates().stream().toList();
+
         // Sauvegarder les candidats
         try (BufferedWriter bwCandidates = new BufferedWriter(new FileWriter(CANDIDATES_FILE))) {
-            for (ICandidate candidate : candidates) {
-                bwCandidates.write(String.format("%d,%s%n",
-                        candidate.getRank(), candidate.getFirstNameLastName()));
+            for (ICandidate candidate : allCandidates) {
+                bwCandidates.write(String.format("%d,%s,%s%n",
+                        candidate.getRank(), candidate.getFirstNameLastName(), candidate.getPitch()));
             }
             System.out.println("Candidats sauvegardés avec succès!");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
 
 
     private void loadDataFromFile() {
@@ -66,7 +76,8 @@ public class AdminApp {
                 String line;
                 while ((line = brVoters.readLine()) != null) {
                     String[] fields = line.split(",");
-                    voters.add(new Voter(fields[0], fields[1], fields[2], fields[3]));
+                    Voter voter = new Voter(fields[0], fields[1], fields[2], fields[3]);
+                    VoterManager.getInstance().registerVoter(voter);
                 }
                 System.out.println("Votants chargés avec succès!");
             } catch (IOException e) {
@@ -83,12 +94,11 @@ public class AdminApp {
                 String line;
                 while ((line = brCandidates.readLine()) != null) {
                     String[] fields = line.split(",");
-                    // Supposons que `rank` soit de type int. Si ce n'est pas le cas, ajustez le code en conséquence.
                     int rank = Integer.parseInt(fields[0]);
                     String firstNameLastName = fields[1];
-                    // Si vous avez sauvegardé des informations concernant le pitch, vous pouvez les extraire ici.
-                    // Pour l'instant, je mets un placeholder pour le pitch.
-                    candidates.add(new Candidate(rank, firstNameLastName, null)); // Remplacez `null` par le pitch si nécessaire
+                    String pitch = fields[2];
+                    Candidate candidate = new Candidate(rank, firstNameLastName,new TextPitch(pitch));
+                    CandidateManager.getInstance().addCandidate(candidate);
                 }
                 System.out.println("Candidats chargés avec succès!");
             } catch (IOException e) {
@@ -97,8 +107,8 @@ public class AdminApp {
         } else {
             System.out.println("Aucun fichier de candidats trouvé. Démarrage avec une liste vide.");
         }
-
     }
+
 
     public List<IVoter> getVoters() {
         return voters;

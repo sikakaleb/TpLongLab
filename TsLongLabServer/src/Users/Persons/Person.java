@@ -1,9 +1,11 @@
 package Users.Persons;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Person  {
+public class Person implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     protected String name;
     protected String dateOfBirth;
 

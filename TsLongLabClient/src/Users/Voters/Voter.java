@@ -1,5 +1,7 @@
 package Users.Voters;
 
+import Exceptions.BadCredentialsException;
+import Exceptions.HasAlreadyVotedException;
 import Users.Candidates.CandidateManager;
 import Users.Persons.Person;
 import Votes.InvalidVoteException;
@@ -13,10 +15,13 @@ import commonInterfaces.IVoter;
 import commonInterfaces.IVotingBallot;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Voter extends Person implements IVoter {
 
     private static final long serialVersionUID = 1L;
+
+    private String otp; // OTP field added for OTP authentication
     protected String studentNumber; // numéro d'étudiant comme identifiant unique
     protected String password;
 
@@ -52,7 +57,14 @@ public class Voter extends Person implements IVoter {
     }
 
     @Override
-    public IVotingBallot castVotes() {
+    public IVotingBallot castVotes() throws BadCredentialsException, HasAlreadyVotedException {
+        if (hasVoted) {
+            throw new HasAlreadyVotedException("The voter has already cast their votes.");
+        }
+
+        if (otp == null || !otp.equals(this.otp)) {
+            throw new BadCredentialsException("Invalid OTP provided.");
+        }
         setHasVoted();
         IVotingBallot ballot = new VotingBallot((IVoter) this);
         CandidateManager candidatesManager = CandidateManager.getInstance();
@@ -71,6 +83,9 @@ public class Voter extends Person implements IVoter {
         VotingBallotManager.getInstance().submitBallot(ballot);
         return ballot;
     }
+
+
+
     @Override
     public IVote getVoteForCandidate(ICandidate candidate) {
         // Cette méthode doit être implémentée.
@@ -116,5 +131,33 @@ public class Voter extends Person implements IVoter {
     @Override
     public String getDateOfBirth() {
         return super.getDateOfBirth();
+    }
+
+    @Override
+    public String getOtp() {
+        return otp;
+    }
+
+    @Override
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    @Override
+    public String regenerateOtp() {
+        String newOtp = generateOTP();
+        this.setOtp(newOtp);
+        return newOtp;
+    }
+
+    @Override
+    public String generateOTP() {
+        Random random = new Random();
+        int otp = 100000 + random.nextInt(900000); // génère un nombre à 6 chiffres
+        return String.valueOf(otp);
+    }
+    @Override
+    public boolean validatePassword(String providedPassword) {
+        return this.password.equals(providedPassword);
     }
 }

@@ -1,5 +1,11 @@
 package commonInterfaces;
 
+import Exceptions.BadCredentialsException;
+import Exceptions.HasAlreadyVotedException;
+import commonInterfaces.ICandidate;
+import commonInterfaces.IVote;
+import commonInterfaces.IVotingBallot;
+
 import java.io.Serializable;
 
 public interface IVoter extends Serializable {
@@ -11,21 +17,31 @@ public interface IVoter extends Serializable {
 
     void setPassword(String password);
 
-    IVotingBallot castVotes();
+    IVotingBallot castVotes() throws BadCredentialsException, HasAlreadyVotedException;
+
+    IVote getVoteForCandidate(ICandidate candidate);
+
+    String getName();
 
     Boolean getHasVoted();
 
     void setHasVoted();
-
-    IVote getVoteForCandidate(ICandidate candidate);
-
-    public String getName();
-
-    public String getDateOfBirth();
 
     @Override
     boolean equals(Object o);
 
     @Override
     int hashCode();
+
+    String getDateOfBirth();
+
+    String getOtp();
+
+    void setOtp(String otp);
+
+    String regenerateOtp();
+
+    String generateOTP();
+
+    boolean validatePassword(String providedPassword);
 }
