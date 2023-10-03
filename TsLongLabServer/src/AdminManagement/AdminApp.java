@@ -12,8 +12,8 @@ import java.util.*;
 public class AdminApp {
     private List<IVoter> voters;
     private List<ICandidate> candidates;
-    private static final String VOTERS_FILE = "votersData.ser";
-    private static final String CANDIDATES_FILE = "candidatesData.ser";
+    private static final String VOTERS_FILE = "votersData.csv";
+    private static final String CANDIDATES_FILE = "candidatesData.csv";
 
 
     public AdminApp() {
@@ -23,30 +23,37 @@ public class AdminApp {
         loadDataFromFile();
     }
 
-    public void addVoter(Voter voter) {
+    public void addVoter(IVoter voter) {
         voters.add(voter);
     }
 
-    public void addCandidate(Candidate candidate) {
+    public void addCandidate(ICandidate candidate) {
         candidates.add(candidate);
     }
 
     public void saveDataToFile() {
         // Sauvegarder les votants
-        try (ObjectOutputStream oosVoters = new ObjectOutputStream(new FileOutputStream(VOTERS_FILE))) {
-            oosVoters.writeObject(voters);
+        try (BufferedWriter bwVoters = new BufferedWriter(new FileWriter(VOTERS_FILE))) {
+            for (IVoter voter : voters) {
+                bwVoters.write(String.format("%s,%s,%s,%s%n",
+                        voter.getName(), voter.getDateOfBirth(), voter.getStudentNumber(), voter.getPassword()));
+            }
             System.out.println("Votants sauvegardés avec succès!");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Sauvegarder les candidats
-        try (ObjectOutputStream oosCandidates = new ObjectOutputStream(new FileOutputStream(CANDIDATES_FILE))) {
-            oosCandidates.writeObject(candidates);
+        try (BufferedWriter bwCandidates = new BufferedWriter(new FileWriter(CANDIDATES_FILE))) {
+            for (ICandidate candidate : candidates) {
+                bwCandidates.write(String.format("%d,%s%n",
+                        candidate.getRank(), candidate.getFirstNameLastName()));
+            }
             System.out.println("Candidats sauvegardés avec succès!");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -54,10 +61,14 @@ public class AdminApp {
         // Charger les votants
         File votersFile = new File(VOTERS_FILE);
         if (votersFile.exists()) {
-            try (ObjectInputStream oisVoters = new ObjectInputStream(new FileInputStream(VOTERS_FILE))) {
-                voters = (List<Voter>) oisVoters.readObject();
+            try (BufferedReader brVoters = new BufferedReader(new FileReader(VOTERS_FILE))) {
+                String line;
+                while ((line = brVoters.readLine()) != null) {
+                    String[] fields = line.split(",");
+                    voters.add(new Voter(fields[0], fields[1], fields[2], fields[3]));
+                }
                 System.out.println("Votants chargés avec succès!");
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
@@ -67,22 +78,32 @@ public class AdminApp {
         // Charger les candidats
         File candidatesFile = new File(CANDIDATES_FILE);
         if (candidatesFile.exists()) {
-            try (ObjectInputStream oisCandidates = new ObjectInputStream(new FileInputStream(CANDIDATES_FILE))) {
-                candidates = (List<Candidate>) oisCandidates.readObject();
+            try (BufferedReader brCandidates = new BufferedReader(new FileReader(CANDIDATES_FILE))) {
+                String line;
+                while ((line = brCandidates.readLine()) != null) {
+                    String[] fields = line.split(",");
+                    // Supposons que `rank` soit de type int. Si ce n'est pas le cas, ajustez le code en conséquence.
+                    int rank = Integer.parseInt(fields[0]);
+                    String firstNameLastName = fields[1];
+                    // Si vous avez sauvegardé des informations concernant le pitch, vous pouvez les extraire ici.
+                    // Pour l'instant, je mets un placeholder pour le pitch.
+                    candidates.add(new Candidate(rank, firstNameLastName, null)); // Remplacez `null` par le pitch si nécessaire
+                }
                 System.out.println("Candidats chargés avec succès!");
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             System.out.println("Aucun fichier de candidats trouvé. Démarrage avec une liste vide.");
         }
+
     }
 
-    public List<Voter> getVoters() {
+    public List<IVoter> getVoters() {
         return voters;
     }
 
-    public void setVoters(List<Voter> voters) {
+    public void setVoters(List<IVoter> voters) {
         this.voters = voters;
     }
 
@@ -90,7 +111,7 @@ public class AdminApp {
         return candidates;
     }
 
-    public void setCandidates(List<Candidate> candidates) {
+    public void setCandidates(List<ICandidate> candidates) {
         this.candidates = candidates;
     }
 

@@ -8,6 +8,7 @@ public interface IVote {
 
     int getScore();
 
+
     @Override
     boolean equals(Object o);
 

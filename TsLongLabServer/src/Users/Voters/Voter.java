@@ -15,6 +15,8 @@ import commonInterfaces.IVoter;
 import java.util.Objects;
 
 public class Voter extends Person implements IVoter {
+
+    private static final long serialVersionUID = 1L;
     protected String studentNumber; // numéro d'étudiant comme identifiant unique
     protected String password;
 
@@ -108,5 +110,11 @@ public class Voter extends Person implements IVoter {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), getStudentNumber(), getPassword());
+    }
+
+
+    @Override
+    public String getDateOfBirth() {
+        return super.getDateOfBirth();
     }
 }

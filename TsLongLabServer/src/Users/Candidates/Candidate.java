@@ -7,6 +7,7 @@ import commonInterfaces.IPitch;
 import java.util.Objects;
 
 public class Candidate extends Person implements ICandidate {
+    private static final long serialVersionUID = 1L;
     private int rank; // rang comme identifiant unique
     private String firstNameLastName; // prénom et nom sous forme de chaîne unique
     private IPitch pitch;

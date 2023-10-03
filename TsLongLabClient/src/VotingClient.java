@@ -1,5 +1,6 @@
-import commonInterfaces.ICandidate;
-import commonInterfaces.VotingService;
+
+import Users.commonInterfaces.ICandidate;
+import Users.commonInterfaces.VotingService;
 
 import java.rmi.Naming;
 import java.util.List;

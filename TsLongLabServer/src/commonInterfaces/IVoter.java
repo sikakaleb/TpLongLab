@@ -19,6 +19,10 @@ public interface IVoter extends Serializable {
 
     IVote getVoteForCandidate(ICandidate candidate);
 
+    public String getName();
+
+    public String getDateOfBirth();
+
     @Override
     boolean equals(Object o);
 
