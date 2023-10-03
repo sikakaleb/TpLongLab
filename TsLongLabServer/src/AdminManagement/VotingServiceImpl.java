@@ -22,5 +22,4 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
         return adminApp.getCandidates();
     }
 
-    // ... implémentez d'autres méthodes selon vos besoins
 }

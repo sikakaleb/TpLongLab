@@ -1,8 +1,11 @@
+import AdminManagement.AdminApp;
 import AdminManagement.VotingServiceImpl;
+import commonInterfaces.ICandidate;
 import commonInterfaces.VotingService;
 
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
+import java.util.List;
 
 public class VotingServer {
     public static void main(String[] args) {
