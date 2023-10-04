@@ -2,9 +2,6 @@ package commonInterfaces;
 
 import Exceptions.BadCredentialsException;
 import Exceptions.HasAlreadyVotedException;
-import commonInterfaces.ICandidate;
-import commonInterfaces.IVote;
-import commonInterfaces.IVotingBallot;
 
 import java.io.Serializable;
 

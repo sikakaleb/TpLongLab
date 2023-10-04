@@ -1,12 +1,13 @@
 package commonInterfaces;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public interface IVotingBallot extends Comparable<IVotingBallot> {
+public interface IVotingBallot extends Comparable<IVotingBallot> , Serializable {
 
 
     // Ajoute un vote pour un candidat
-    void addVote(ICandidate candidate, IVote vote);
+    void addVote(IVote vote);
 
     // Obtenir le vote pour un candidat spécifique
     IVote getVoteForCandidate(ICandidate candidate);

@@ -4,15 +4,15 @@ import Exceptions.BadCredentialsException;
 import Exceptions.HasAlreadyVotedException;
 import Users.Candidates.CandidateManager;
 import Users.Persons.Person;
-import commonInterfaces.IVote;
-import commonInterfaces.IVotingBallot;
-import VotingBallots.VotingBallot;
-import VotingBallots.VotingBallotManager;
 import Votes.InvalidVoteException;
 import Votes.Vote;
 import Votes.VoteManager;
+import VotingBallots.VotingBallot;
+import VotingBallots.VotingBallotManager;
 import commonInterfaces.ICandidate;
+import commonInterfaces.IVote;
 import commonInterfaces.IVoter;
+import commonInterfaces.IVotingBallot;
 
 import java.util.Objects;
 import java.util.Random;
@@ -76,7 +76,7 @@ public class Voter extends Person implements IVoter {
             IVote vote = getVoteForCandidate(candidate);
             //sauvegarder le vote dans le VoteManager
             VoteManager.getInstance().recordVote(vote);
-            ballot.addVote(candidate, vote);
+            ballot.addVote(vote);
         }
 
         //sauvegarder le bulletin de vote dans le VotingBallotManager
@@ -99,6 +99,8 @@ public class Voter extends Person implements IVoter {
             return null;
         }
     }
+
+
 
     @Override
     public String getName() {

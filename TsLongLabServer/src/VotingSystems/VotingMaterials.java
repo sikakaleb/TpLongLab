@@ -1,18 +1,20 @@
 package VotingSystems;
 
 import commonInterfaces.ICandidate;
+import commonInterfaces.IVoter;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class VotingMaterials implements Serializable {
     private List<ICandidate> candidates;
-    private String OTP; // OTP field added for OTP authentication
+
+    private IVoter voter; // OTP field added for OTP authentication
     // Ajoutez d'autres champs si nécessaire
 
-    public VotingMaterials(List<ICandidate> candidates, String OTP) {
+    public VotingMaterials(List<ICandidate> candidates, IVoter voter) {
         this.candidates = candidates;
-        this.OTP = OTP;
+        this.voter = voter;
     }
 
     public List<ICandidate> getCandidates() {
@@ -20,7 +22,11 @@ public class VotingMaterials implements Serializable {
     }
 
     public String getOTP() {
-        return OTP;
+        return voter.getOtp();
+    }
+
+    public IVoter getVoter() {
+        return voter;
     }
     // D'autres méthodes getters et setters
 }

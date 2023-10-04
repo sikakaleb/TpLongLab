@@ -1,9 +1,8 @@
 package commonInterfaces;
 
-import Users.Candidates.Candidate;
-import commonInterfaces.ICandidate;
+import java.io.Serializable;
 
-public interface IVote {
+public interface IVote extends Serializable {
     ICandidate getCandidate();
 
     int getScore();

@@ -1,15 +1,14 @@
 package Users.Voters;
 
+import Exceptions.BadCredentialsException;
+import commonInterfaces.IVoter;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-
-import AdminManagement.AdminApp;
-import Exceptions.BadCredentialsException;
-import commonInterfaces.IVoter;
 
 
 public class VoterManager {

@@ -1,6 +1,5 @@
 package VotingBallots;
 
-import Users.Voters.Voter;
 import commonInterfaces.IVoter;
 import commonInterfaces.IVotingBallot;
 

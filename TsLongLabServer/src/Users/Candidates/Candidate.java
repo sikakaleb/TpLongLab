@@ -1,6 +1,5 @@
 package Users.Candidates;
 
-import Users.Persons.Person;
 import commonInterfaces.ICandidate;
 import commonInterfaces.IPitch;
 

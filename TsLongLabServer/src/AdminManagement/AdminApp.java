@@ -1,6 +1,5 @@
 package AdminManagement;
 
-import Exceptions.BadCredentialsException;
 import Users.Candidates.Candidate;
 import Users.Candidates.CandidateManager;
 import Users.Candidates.Pitch.TextPitch;
@@ -10,7 +9,9 @@ import commonInterfaces.ICandidate;
 import commonInterfaces.IVoter;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class AdminApp {
 
