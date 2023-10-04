@@ -12,16 +12,16 @@ import commonInterfaces.ICandidate;
 import commonInterfaces.IVoter;
 import commonInterfaces.IVotingBallot;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class VotingSystem {
     private VoterManager voterManager;
     private VotingBallotManager ballotManager;
     private VoteManager votesManager;
     private boolean votingEnded;
+    private Date closingDate;
+
+
 
     public VotingSystem() {
         voterManager = VoterManager.getInstance();
@@ -87,6 +87,17 @@ public class VotingSystem {
         }
         voterManager.registerVoter(voter);
         AdminApp.getInstance().saveDataToFile();
+    }
+
+    // Une méthode pour définir la date de clôture
+    public void setClosingDate(Date closingDate) {
+        this.closingDate = closingDate;
+    }
+
+    // Une méthode pour vérifier si le vote est encore ouvert
+    public boolean isVotingOpen() {
+        Date currentDate = new Date();
+        return currentDate.before(closingDate);
     }
 }
 

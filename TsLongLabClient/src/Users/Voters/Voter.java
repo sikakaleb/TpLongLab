@@ -16,6 +16,7 @@ import commonInterfaces.IVotingBallot;
 
 import java.util.Objects;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Voter extends Person implements IVoter {
 
@@ -160,4 +161,24 @@ public class Voter extends Person implements IVoter {
     public boolean validatePassword(String providedPassword) {
         return this.password.equals(providedPassword);
     }
+
+    @Override
+    public IVote voteForCandidate(ICandidate candidate) {
+        System.out.println("Veuillez entrer votre vote pour " + candidate.getFirstNameLastName() + " (0-3):");
+        Scanner scanner = new Scanner(System.in);
+        int voteValue = scanner.nextInt();
+
+        while (voteValue < 0 || voteValue > 3) {
+            System.out.println("Entrée invalide. Veuillez entrer une valeur entre 0 et 3.");
+            voteValue = scanner.nextInt();
+        }
+
+        try {
+            return new Vote(candidate, voteValue);
+        } catch (InvalidVoteException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

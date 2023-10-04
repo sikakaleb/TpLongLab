@@ -41,4 +41,6 @@ public interface IVoter extends Serializable {
     String generateOTP();
 
     boolean validatePassword(String providedPassword);
+
+    IVote voteForCandidate(ICandidate candidate);
 }

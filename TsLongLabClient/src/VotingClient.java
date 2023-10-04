@@ -24,8 +24,6 @@ public class VotingClient {
             VotingMaterials otp = service.authentificate(studentNumber, password);
             System.out.println("Votre OTP est: " + otp.getOTP());
 
-
-
             List<ICandidate> candidates = service.getCandidates();
             // Afficher un message de succès si la communication est réussie
             System.out.println("Communication réussie avec le serveur RMI!");
