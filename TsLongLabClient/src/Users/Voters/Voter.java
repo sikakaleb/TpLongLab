@@ -76,7 +76,7 @@ public class Voter extends Person implements IVoter {
             IVote vote = getVoteForCandidate(candidate);
             //sauvegarder le vote dans le VoteManager
             VoteManager.getInstance().recordVote(vote);
-            ballot.addVote(candidate, vote);
+            ballot.addVote(vote);
         }
 
         //sauvegarder le bulletin de vote dans le VotingBallotManager
@@ -99,6 +99,8 @@ public class Voter extends Person implements IVoter {
             return null;
         }
     }
+
+
 
     @Override
     public String getName() {
@@ -161,7 +163,6 @@ public class Voter extends Person implements IVoter {
     public boolean validatePassword(String providedPassword) {
         return this.password.equals(providedPassword);
     }
-
     @Override
     public IVote voteForCandidate(ICandidate candidate) {
         System.out.println("Veuillez entrer votre vote pour " + candidate.getFirstNameLastName() + " (0-3):");
@@ -180,5 +181,4 @@ public class Voter extends Person implements IVoter {
             return null;
         }
     }
-
 }

@@ -8,13 +8,12 @@ import Votes.VoteManager;
 import VotingBallots.VotingBallotManager;
 import VotingSystems.VotingMaterials;
 import VotingSystems.VotingSystem;
-import commonInterfaces.ICandidate;
-import commonInterfaces.IVoter;
-import commonInterfaces.VotingService;
+import commonInterfaces.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class VotingServiceImpl extends UnicastRemoteObject implements VotingService {
@@ -41,7 +40,7 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
 
     @Override
     public List<ICandidate> getCandidates() throws RemoteException {
-        return adminApp.getCandidates();
+        return CandidateManager.getInstance().getCandidates().stream().toList();
     }
 
     @Override
@@ -52,9 +51,6 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
     @Override
     public VotingMaterials authentificate(String username, String password) throws RemoteException, BadCredentialsException, HasAlreadyVotedException {
         String Otp=adminVoterApp.authentification(username, password);
-        System.out.println("****************************************************************************");
-        System.out.println("*************************"+Otp+"**************************************");
-
         if(Otp==null){
             throw new BadCredentialsException("Bad Credentials");
         }
@@ -67,6 +63,42 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
         }
 
     }
+    @Override
+    public void castVotes(IVotingBallot ballot, List<IVote> listVotes, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException {
+        /*if (voter.getHasVoted()) {
+            throw new HasAlreadyVotedException("The voter has already cast their votes.");
+        }
+
+        if (voter.getOtp() == null) {
+            throw new BadCredentialsException("Invalid OTP provided.");
+        }
+        voter.setHasVoted();*/
+
+        for (IVote vote : listVotes) {
+
+            VoteManager.getInstance().recordVote(vote);
+            //ballot.addVote(candidate, vote);
+        }
+        //sauvegarder le bulletin de vote dans le VotingBallotManager
+        ballot.setRegistrationDate();
+        VotingBallotManager.getInstance().submitBallot(ballot);
+    }
+
+    @Override
+    public Map<ICandidate, Integer> getResults() {
+        if(!votingSystem.isVotingOpen()){
+            return votingSystem.getResults();
+        }
+        else{
+            throw new IllegalStateException("Voting is open");
+        }
+    }
+
+    void endVotingSession() {
+        // Sauvegardez les données sérialisées
+        votingSystem.endVoting();
+    }
+
 
 
 }

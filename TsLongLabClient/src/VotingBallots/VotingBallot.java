@@ -6,32 +6,35 @@ import commonInterfaces.IVoter;
 import commonInterfaces.IVotingBallot;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class VotingBallot implements IVotingBallot {
     private IVoter voter;
-    private Map<ICandidate, IVote> votes; // Une carte associant chaque candidat à un vote
+    private Set<IVote> votes; // Une carte associant chaque candidat à un vote
 
     private LocalDate registrationDate = LocalDate.now(); // La date d'enregistrement du bulletin de vote
 
 
     public VotingBallot(IVoter voter) {
         this.voter = voter;
-        this.votes = new HashMap<>();
+        this.votes = new HashSet<>();
     }
 
     // Ajoute un vote pour un candidat
     @Override
-    public void addVote(ICandidate candidate, IVote vote) {
-        votes.put(candidate, vote);
+    public void addVote(IVote vote) {
+        votes.add(vote);
     }
 
     // Obtenir le vote pour un candidat spécifique
     @Override
     public IVote getVoteForCandidate(ICandidate candidate) {
-        return votes.get(candidate);
+        for (IVote vote : votes) {
+            if (vote.getCandidate().equals(candidate)) {
+                return vote;
+            }
+        }
+        return null;
     }
 
     // Obtenir le votant associé à ce bulletin de vote

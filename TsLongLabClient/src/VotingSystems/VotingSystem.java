@@ -1,6 +1,5 @@
 package VotingSystems;
 
-import AdminManagement.AdminApp;
 import Exceptions.BadCredentialsException;
 import Exceptions.HasAlreadyVotedException;
 import Users.Candidates.CandidateManager;
@@ -19,8 +18,20 @@ public class VotingSystem {
     private VotingBallotManager ballotManager;
     private VoteManager votesManager;
     private boolean votingEnded;
+
+    private Date beginDate;
     private Date closingDate;
 
+    // Une méthode pour définir la date de clôture
+    public void setClosingDate(Date closingDate) {
+        this.closingDate = closingDate;
+    }
+
+    // Une méthode pour vérifier si le vote est encore ouvert
+    public boolean isVotingOpen() {
+        Date currentDate = new Date();
+        return currentDate.before(closingDate);
+    }
 
 
     public VotingSystem() {
@@ -28,6 +39,11 @@ public class VotingSystem {
         ballotManager = VotingBallotManager.getInstance();
         votesManager = VoteManager.getInstance();
         votingEnded = false;
+        this.beginDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.beginDate);
+        calendar.add(Calendar.MINUTE, 30);  // ajouter 30 minutes
+        Date closingDate = calendar.getTime();
     }
 
     // Faire voter tous les électeurs
@@ -77,27 +93,26 @@ public class VotingSystem {
     public VotingMaterials getVotingMaterialsForVoter(IVoter voter) {
         // Récupérer la liste des candidats et d'autres informations si nécessaire
         List<ICandidate> candidates = CandidateManager.getInstance().getCandidates().stream().toList();
-        return new VotingMaterials(candidates,voter.getOtp());
+        return new VotingMaterials(candidates,voter);
     }
 
     public void setOtpForVoter(IVoter voter, String otp) {
         voterManager.removeVoter((Voter) voter);
-        if(voter.getOtp()==null||voter.getOtp()!=null){
+        if(voter.getOtp()==null){
             voter.regenerateOtp();
         }
         voterManager.registerVoter(voter);
-        AdminApp.getInstance().saveDataToFile();
+        voterManager.saveDataToFile();
     }
 
-    // Une méthode pour définir la date de clôture
-    public void setClosingDate(Date closingDate) {
-        this.closingDate = closingDate;
-    }
+    public Map<ICandidate, Integer> getResults(){
+        Map<ICandidate, Integer> results = getTotalVotesByCandidate();
 
-    // Une méthode pour vérifier si le vote est encore ouvert
-    public boolean isVotingOpen() {
-        Date currentDate = new Date();
-        return currentDate.before(closingDate);
+        // Trier les résultats
+        List<Map.Entry<ICandidate, Integer>> sortedResults = new ArrayList<>(results.entrySet());
+        sortedResults.sort(Map.Entry.<ICandidate, Integer>comparingByValue().reversed());
+
+        return (Map<ICandidate, Integer>) sortedResults;
     }
 }
 

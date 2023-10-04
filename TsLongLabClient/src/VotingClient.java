@@ -1,10 +1,16 @@
+import Votes.Vote;
+import VotingBallots.VotingBallot;
 import VotingSystems.VotingMaterials;
 import commonInterfaces.ICandidate;
+import commonInterfaces.IVote;
+import commonInterfaces.IVotingBallot;
 import commonInterfaces.VotingService;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class VotingClient {
@@ -21,8 +27,8 @@ public class VotingClient {
             String studentNumber = "AlicePass";
             System.out.println("Veuillez entrer votre mot de passe:");
             String password = "password1";
-            VotingMaterials otp = service.authentificate(studentNumber, password);
-            System.out.println("Votre OTP est: " + otp.getOTP());
+            VotingMaterials votingMat = service.authentificate(studentNumber, password);
+            System.out.println("Votre OTP est: " + votingMat.getOTP());
 
             List<ICandidate> candidates = service.getCandidates();
             // Afficher un message de succès si la communication est réussie
@@ -31,6 +37,36 @@ public class VotingClient {
 
             for (ICandidate candidate : candidates) {
                System.out.println(candidate.toString()); // Assurez-vous que la méthode toString() est bien définie dans l'interface ICandidate ou la classe qui l'implémente
+            }
+
+            if (votingMat != null) {
+                // Demander à l'utilisateur de fournir un vote pour chaque candidat
+                List<IVote> listVotes = new ArrayList<>();
+                IVotingBallot ballot = new VotingBallot(votingMat.getVoter());
+                for (ICandidate candidate : votingMat.getCandidates()) {
+                    System.out.println("------------------------------------------------------------------");
+                    System.out.println("Le Pitch de Monsieur " + candidate.getFirstNameLastName() + " (:)"+ candidate.getPitch());
+                    System.out.println("Veuillez entrer votre vote pour " + candidate.getFirstNameLastName() + " (0-3):");
+
+                    int voteValue = scanner.nextInt();
+                    while (voteValue < 0 || voteValue > 3) {
+                        System.out.println("Entrée invalide. Veuillez entrer une valeur entre 0 et 3.");
+                        voteValue = scanner.nextInt();
+                    }
+                    ballot.addVote(new Vote(candidate,voteValue));
+                }
+                service.castVotes(ballot, listVotes, votingMat.getVoter());
+
+                // Demander les résultats
+                Map<ICandidate, Integer> results = service.getResults();
+                if (results != null) {
+                    System.out.println("Résultats du vote :");
+                    for (Map.Entry<ICandidate, Integer> entry : results.entrySet()) {
+                        System.out.println(entry.getKey().getFirstNameLastName() + ": " + entry.getValue() + " voix");
+                    }
+                }
+            } else {
+                System.out.println("Le vote est terminé. Merci de votre participation.");
             }
         } catch (Exception e) {
             System.out.println("Une erreur s'est produite lors de la communication avec le serveur RMI.");

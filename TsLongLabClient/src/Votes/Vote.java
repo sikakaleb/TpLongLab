@@ -31,12 +31,12 @@ public class Vote implements IVote {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Vote vote)) return false;
-        return getScore() == vote.getScore() && Objects.equals(getCandidate(), vote.getCandidate());
+        return Objects.equals(getCandidate(), vote.getCandidate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCandidate(), getScore());
+        return Objects.hash(getCandidate());
     }
 
 }
