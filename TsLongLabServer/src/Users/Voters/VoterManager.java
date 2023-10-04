@@ -1,11 +1,19 @@
 package Users.Voters;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+
+import AdminManagement.AdminApp;
 import Exceptions.BadCredentialsException;
 import commonInterfaces.IVoter;
 
+
 public class VoterManager {
+    private static final String VOTERS_FILE = "votersData.csv";
     // Singleton instance
     private static VoterManager instance;
 
@@ -48,7 +56,8 @@ public class VoterManager {
     public String requestVotingMaterial(String studentNumber, String providedPassword) throws BadCredentialsException {
         IVoter voter = findVoterByStudentNumber(studentNumber);
         if (voter.validatePassword(providedPassword)) {
-            return voter.regenerateOtp();
+            voter.regenerateOtp();
+            return voter.getOtp();
         } else {
             throw new BadCredentialsException("Invalid credentials provided.");
         }
@@ -62,5 +71,29 @@ public class VoterManager {
         }
         return null; // retourne null si aucun électeur n'a été trouvé
     }
+
+    public void saveDataToFile() {
+        // Utilisez VoterManager pour obtenir la liste des votants
+        Set<IVoter> allVoters = VoterManager.getInstance().getAllVoters();
+
+        // Supprimez le fichier existant pour éviter les doublons
+        new File(VOTERS_FILE).delete();
+
+        // Sauvegarder les votants
+        try (BufferedWriter bwVoters = new BufferedWriter(new FileWriter(VOTERS_FILE))) {
+            for (IVoter voter : allVoters) {
+                String otp = voter.getOtp();
+                if (otp == null) {
+                    otp = "NA"; // "NA" pour "Not Available" ou vous pouvez choisir une autre chaîne de remplacement
+                }
+                bwVoters.write(String.format("%s,%s,%s,%s,%s%n",
+                        voter.getName(), voter.getDateOfBirth(), voter.getStudentNumber(), voter.getPassword(), otp));
+            }
+            System.out.println("Votants sauvegardés avec succès!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

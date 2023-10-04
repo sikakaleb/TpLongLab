@@ -18,11 +18,11 @@ public class VotingClient {
 
             Scanner scanner = new Scanner(System.in);
             System.out.println("Veuillez entrer votre numéro d'étudiant:");
-            String studentNumber = scanner.nextLine();
+            String studentNumber = "AlicePass";
             System.out.println("Veuillez entrer votre mot de passe:");
-            String password = scanner.nextLine();
-            VotingMaterials otp = service.requestVotingMaterials(studentNumber);
-            System.out.println("Votre OTP est: " + otp);
+            String password = "password1";
+            VotingMaterials otp = service.authentificate(studentNumber, password);
+            System.out.println("Votre OTP est: " + otp.getOTP());
 
 
 

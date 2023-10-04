@@ -1,9 +1,8 @@
 package AdminManagement;
 
 import Exceptions.BadCredentialsException;
-import Users.Candidates.Candidate;
+import Exceptions.HasAlreadyVotedException;
 import Users.Candidates.CandidateManager;
-import Users.Voters.Voter;
 import Users.Voters.VoterManager;
 import Votes.VoteManager;
 import VotingBallots.VotingBallotManager;
@@ -16,11 +15,13 @@ import commonInterfaces.VotingService;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Scanner;
 
 public class VotingServiceImpl extends UnicastRemoteObject implements VotingService {
     // Charger des données sérialisées lors de l'initialisation
     private AdminApp adminApp;
 
+    private Scanner scanner = new Scanner(System.in);
     private AdminVoterApp adminVoterApp;
     private VotingSystem votingSystem;
 
@@ -40,14 +41,32 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
 
     @Override
     public List<ICandidate> getCandidates() throws RemoteException {
-        return adminApp.getCandidates();
+        return CandidateManager.getInstance().getCandidates().stream().toList();
     }
 
     @Override
-    public VotingMaterials requestVotingMaterials(String otp) throws RemoteException, BadCredentialsException {
-        // Vérifiez l', trouvez l'électeur correspondant, et retournez les matériaux de vote
-        IVoter voter = VoterManager.getInstance().findVoterByStudentNumber(otp); // Trouvez l'électeur basé sur l'OTP
+    public VotingMaterials requestVotingMaterials(IVoter voter) throws RemoteException, BadCredentialsException, HasAlreadyVotedException {
+        // Vérifiez l', trouvez l'électeur correspondant, et retournez les matériaux de vote// Trouvez l'électeur basé sur l'OTP
         return votingSystem.getVotingMaterialsForVoter(voter);
     }
+    @Override
+    public VotingMaterials authentificate(String username, String password) throws RemoteException, BadCredentialsException, HasAlreadyVotedException {
+        String Otp=adminVoterApp.authentification(username, password);
+        System.out.println("****************************************************************************");
+        System.out.println("*************************"+Otp+"**************************************");
+
+        if(Otp==null){
+            throw new BadCredentialsException("Bad Credentials");
+        }
+        else{
+            IVoter voter = VoterManager.getInstance().findVoterByStudentNumber(username);
+            votingSystem.setOtpForVoter(voter, Otp);
+            voter.setOtp(Otp);
+            return requestVotingMaterials(voter);
+
+        }
+
+    }
+
 
 }

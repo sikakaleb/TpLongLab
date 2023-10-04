@@ -1,5 +1,6 @@
 package VotingSystems;
 
+import AdminManagement.AdminApp;
 import Exceptions.BadCredentialsException;
 import Exceptions.HasAlreadyVotedException;
 import Users.Candidates.CandidateManager;
@@ -74,9 +75,17 @@ public class VotingSystem {
     public VotingMaterials getVotingMaterialsForVoter(IVoter voter) {
         // Récupérer la liste des candidats et d'autres informations si nécessaire
         List<ICandidate> candidates = CandidateManager.getInstance().getCandidates().stream().toList();
-        return new VotingMaterials(candidates);
+        return new VotingMaterials(candidates,voter.getOtp());
     }
 
+    public void setOtpForVoter(IVoter voter, String otp) {
+        voterManager.removeVoter((Voter) voter);
+        if(voter.getOtp()==null){
+            voter.regenerateOtp();
+        }
+        voterManager.registerVoter(voter);
+        voterManager.saveDataToFile();
+    }
 }
 
 

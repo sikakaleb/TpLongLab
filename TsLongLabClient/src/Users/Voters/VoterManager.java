@@ -49,7 +49,7 @@ public class VoterManager {
     public String requestVotingMaterial(String studentNumber, String providedPassword) throws BadCredentialsException {
         IVoter voter = findVoterByStudentNumber(studentNumber);
         if (voter.validatePassword(providedPassword)) {
-            return voter.regenerateOtp();
+            return "ok";
         } else {
             throw new BadCredentialsException("Invalid credentials provided.");
         }
@@ -63,5 +63,6 @@ public class VoterManager {
         }
         return null; // retourne null si aucun électeur n'a été trouvé
     }
+
 
 }

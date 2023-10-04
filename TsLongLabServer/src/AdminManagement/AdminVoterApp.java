@@ -1,5 +1,6 @@
 package AdminManagement;
 
+import Exceptions.BadCredentialsException;
 import Users.Voters.Voter;
 import Users.Voters.VoterManager;
 
@@ -41,6 +42,10 @@ public class AdminVoterApp {
             i.printStackTrace();
         }
     }
+    public String authentification(String studentNumber, String password) throws BadCredentialsException {
+        return VoterManager.getInstance().requestVotingMaterial(studentNumber, password);
+    }
+
 
     // Add other necessary methods like loading voters from file if needed
 }
