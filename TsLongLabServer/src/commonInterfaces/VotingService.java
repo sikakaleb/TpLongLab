@@ -8,7 +8,6 @@ import VotingSystems.VotingMaterials;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.Map;
 
 public interface VotingService extends Remote {
     List<ICandidate> getCandidates() throws RemoteException;

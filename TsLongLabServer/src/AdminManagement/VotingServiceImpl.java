@@ -14,7 +14,6 @@ import commonInterfaces.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class VotingServiceImpl extends UnicastRemoteObject implements VotingService {
@@ -23,19 +22,16 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
 
     private Scanner scanner = new Scanner(System.in);
     private AdminVoterApp adminVoterApp;
-    private VotingSystem votingSystem;
+    public VotingSystem votingSystem;
 
     public VotingServiceImpl() throws RemoteException {
         super();
+        votingSystem = VotingSystem.getInstance();
         adminApp = new AdminApp(); // Cette ligne chargera vos données lors de l'initialisation des candidats
         adminVoterApp = new AdminVoterApp(); // Cette ligne chargera vos données lors de l'initialisation des électeurs
-        votingSystem = new VotingSystem();
+
 
         // Initialisez vos managers
-        CandidateManager.getInstance();
-        VoterManager.getInstance();
-        VotingBallotManager.getInstance();
-        VoteManager.getInstance();
     }
 
 
@@ -90,6 +86,7 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
     @Override
     public Referee getResults() throws InvalidVoteException {
         if(!votingSystem.isVotingOpen()){
+            System.out.println("Voting is closed");
             return new Referee(votingSystem.getResults());
         }
         else{

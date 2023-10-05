@@ -14,13 +14,14 @@ import commonInterfaces.IVotingBallot;
 import java.util.*;
 
 public class VotingSystem {
+
+    private static VotingSystem instance;
     private VoterManager voterManager;
     private VotingBallotManager ballotManager;
     private VoteManager votesManager;
     private boolean votingEnded;
-
-    private Date beginDate;
-    private Date closingDate;
+    public Date beginDate;
+    public Date closingDate;
 
     // Une méthode pour définir la date de clôture
     public void setClosingDate(Date closingDate) {
@@ -30,7 +31,7 @@ public class VotingSystem {
     // Une méthode pour vérifier si le vote est encore ouvert
     public boolean isVotingOpen() {
         Date currentDate = new Date();
-        return currentDate.before(closingDate);
+        return this.votingEnded || currentDate.before(closingDate);
     }
 
 
@@ -38,12 +39,20 @@ public class VotingSystem {
         voterManager = VoterManager.getInstance();
         ballotManager = VotingBallotManager.getInstance();
         votesManager = VoteManager.getInstance();
+        CandidateManager.getInstance();
         votingEnded = false;
         this.beginDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.beginDate);
-        calendar.add(Calendar.MINUTE, 30);  // ajouter 30 minutes
+        calendar.add(Calendar.MINUTE, 3000);  // ajouter 30 minutes
         Date closingDate = calendar.getTime();
+    }
+
+    public static synchronized VotingSystem getInstance() {
+        if (instance == null) {
+            instance = new VotingSystem();
+        }
+        return instance;
     }
 
     // Faire voter tous les électeurs

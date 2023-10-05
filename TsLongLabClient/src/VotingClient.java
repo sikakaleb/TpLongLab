@@ -1,3 +1,5 @@
+import AdminManagement.Referee;
+import AdminManagement.VotingServiceImpl;
 import Votes.Vote;
 import VotingBallots.VotingBallot;
 import VotingSystems.VotingMaterials;
@@ -8,10 +10,7 @@ import commonInterfaces.VotingService;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class VotingClient {
     public static void main(String[] args) {
@@ -45,24 +44,30 @@ public class VotingClient {
                 IVotingBallot ballot = new VotingBallot(votingMat.getVoter());
                 for (ICandidate candidate : votingMat.getCandidates()) {
                     System.out.println("------------------------------------------------------------------");
-                    System.out.println("Le Pitch de Monsieur " + candidate.getFirstNameLastName() + " (:)"+ candidate.getPitch());
+                    System.out.println("Le Pitch de " + candidate.getFirstNameLastName() + " (:)"+ candidate.getPitch());
                     System.out.println("Veuillez entrer votre vote pour " + candidate.getFirstNameLastName() + " (0-3):");
 
                     int voteValue = scanner.nextInt();
+                    //VotingServiceImpl votingService = (VotingServiceImpl) service;
+
                     while (voteValue < 0 || voteValue > 3) {
+
                         System.out.println("Entrée invalide. Veuillez entrer une valeur entre 0 et 3.");
                         voteValue = scanner.nextInt();
                     }
+                    IVote imvote = new Vote(candidate,voteValue);
+                    //Date datedeb = votingService.votingSystem.beginDate;
+                    //Date datefin = votingService.votingSystem.closingDate;
                     ballot.addVote(new Vote(candidate,voteValue));
                 }
                 service.castVotes(ballot, listVotes, votingMat.getVoter());
 
                 // Demander les résultats
-                Map<ICandidate, Integer> results = service.getResults();
+                Referee results = service.getResults();
                 if (results != null) {
                     System.out.println("Résultats du vote :");
-                    for (Map.Entry<ICandidate, Integer> entry : results.entrySet()) {
-                        System.out.println(entry.getKey().getFirstNameLastName() + ": " + entry.getValue() + " voix");
+                    for (IVote entry : results.getResultMap()) {
+                        System.out.println(entry.getCandidate().getFirstNameLastName() + ": " + entry.getScore() + " voix");
                     }
                 }
             } else {

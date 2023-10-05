@@ -1,12 +1,13 @@
 package commonInterfaces;
+import AdminManagement.Referee;
 import Exceptions.BadCredentialsException;
 import Exceptions.HasAlreadyVotedException;
+import Votes.InvalidVoteException;
 import VotingSystems.VotingMaterials;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.Map;
 
 public interface VotingService extends Remote {
     List<ICandidate> getCandidates() throws RemoteException;
@@ -23,7 +24,7 @@ public interface VotingService extends Remote {
 
     VotingMaterials authentificate(String username, String password) throws RemoteException, BadCredentialsException, HasAlreadyVotedException;
 
-    void castVotes(IVotingBallot ballot, List<IVote> listVotes, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException;
+    void castVotes(IVotingBallot ballot, List<IVote> listVotes, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException,RemoteException;
 
-    Map<ICandidate,Integer> getResults();
+    Referee getResults() throws RemoteException,InvalidVoteException;
 }

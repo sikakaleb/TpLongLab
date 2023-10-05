@@ -6,6 +6,7 @@ import commonInterfaces.IVote;
 import java.util.Objects;
 
 public class Vote implements IVote {
+    private static final long serialVersionUID = 1L;
     private ICandidate candidate;
     private int score;
 

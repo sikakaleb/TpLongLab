@@ -6,9 +6,12 @@ import commonInterfaces.IVoter;
 import commonInterfaces.IVotingBallot;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class VotingBallot implements IVotingBallot {
+    private static final long serialVersionUID = 1L;
     private IVoter voter;
     private Set<IVote> votes; // Une carte associant chaque candidat à un vote
 
