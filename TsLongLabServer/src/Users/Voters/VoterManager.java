@@ -3,15 +3,12 @@ package Users.Voters;
 import Exceptions.BadCredentialsException;
 import commonInterfaces.IVoter;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class VoterManager {
+public class VoterManager implements Serializable {
     private static final String VOTERS_FILE = "votersData.csv";
     // Singleton instance
     private static VoterManager instance;
@@ -54,10 +51,14 @@ public class VoterManager {
 
     public String requestVotingMaterial(String studentNumber, String providedPassword) throws BadCredentialsException {
         IVoter voter = findVoterByStudentNumber(studentNumber);
-        if (voter.validatePassword(providedPassword)) {
+        if (voter.validatePassword(providedPassword) && !voter.getHasVoted()) {
             voter.regenerateOtp();
+            System.out.println("OTP: " + voter.getHasVoted());
+            voter.setHasVoted();
             return voter.getOtp();
-        } else {
+        } else if(voter.getHasVoted()){
+            throw new BadCredentialsException("You have already voted.");
+        }else {
             throw new BadCredentialsException("Invalid credentials provided.");
         }
     }
@@ -94,5 +95,13 @@ public class VoterManager {
         }
     }
 
+    public boolean allVotersVoted() {
+        for (IVoter voter : voters) {
+            if (!voter.getHasVoted()) { // Si un des votants n'a pas voté, retournez false
+                return false;
+            }
+        }
+        return true; // Tous les votants ont voté
+    }
 
 }

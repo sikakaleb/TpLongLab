@@ -3,13 +3,17 @@ package Votes;
 import commonInterfaces.ICandidate;
 import commonInterfaces.IVote;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VoteManager {
+public class VoteManager implements Serializable {
+    private static final String VOTES_FILE = "votes.csv";  // Chemin vers le fichier CSV
     private static VoteManager instance;
 
-    // Au lieu d'une liste de votes, on garde un Map pour enregistrer le score total pour chaque candidat
     private Map<ICandidate, Integer> voteSum;
 
     private VoteManager() {
@@ -23,14 +27,21 @@ public class VoteManager {
         return instance;
     }
 
-    // Enregistrer un vote
     public void recordVote(IVote vote) {
         voteSum.put(vote.getCandidate(), voteSum.getOrDefault(vote.getCandidate(), 0) + vote.getScore());
+        writeVoteToFile(vote);  // Écrire le vote dans le fichier après l'enregistrement
     }
 
-    // Retourner la somme des votes par candidat
     public Map<ICandidate, Integer> getVotesByCandidate() {
-        // Retourne une copie pour éviter des modifications externes
-        return new HashMap<>(voteSum);
+        return new HashMap<>(voteSum);  // Retourner une copie pour prévenir des modifications
+    }
+
+    // Méthode pour écrire le vote dans un fichier CSV
+    private void writeVoteToFile(IVote vote) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(VOTES_FILE, true))) {
+            bw.write(String.format("%s,%d%n", vote.getCandidate().getFirstNameLastName(), vote.getScore()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

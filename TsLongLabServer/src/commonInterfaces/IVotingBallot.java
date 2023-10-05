@@ -2,6 +2,7 @@ package commonInterfaces;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 public interface IVotingBallot extends Comparable<IVotingBallot> , Serializable {
 
@@ -20,6 +21,8 @@ public interface IVotingBallot extends Comparable<IVotingBallot> , Serializable 
 
     void setRegistrationDate();
 
+    Set<IVote> getVotes();
+
     @Override
     boolean equals(Object o);
 
@@ -28,4 +31,5 @@ public interface IVotingBallot extends Comparable<IVotingBallot> , Serializable 
 
     @Override
     public int compareTo(IVotingBallot other);
+
 }

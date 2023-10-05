@@ -73,4 +73,9 @@ public class VotingBallot implements IVotingBallot {
     public int compareTo(IVotingBallot other) {
         return this.registrationDate.compareTo(other.getRegistrationDate());
     }
+
+    @Override
+    public Set<IVote> getVotes() {
+        return new HashSet<>(votes);
+    }
 }

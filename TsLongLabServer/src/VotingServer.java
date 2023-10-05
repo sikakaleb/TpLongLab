@@ -14,6 +14,13 @@ public class VotingServer {
             LocateRegistry.createRegistry(1099); // Créez un registre RMI sur le port 1099
             Naming.bind("rmi://localhost:1099/voting", service); // Associez votre service à une URL
             System.out.println("Serveur RMI lancé et prêt !");
+            while (true) {
+                if (!service.getVotingSystem().isVotingOpen()) {
+                    service.sendResultsToAllClients();
+                    break;
+                }
+                Thread.sleep(6000); // Vérifiez toutes les minutes.
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

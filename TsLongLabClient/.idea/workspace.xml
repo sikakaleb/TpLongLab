@@ -5,16 +5,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="487e8239-fb61-413b-baf4-328c7a4f0a4f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/AdminManagement/Referee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commonInterfaces/ClientCallback.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../TsLongLabServer/src/commonInterfaces/ClientCallback.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AdminManagement/Referee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AdminManagement/Referee.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AdminManagement/VotingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AdminManagement/VotingServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Votes/Vote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Votes/Vote.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Users/Voters/VoterManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Users/Voters/VoterManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Votes/VoteManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Votes/VoteManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/VotingBallots/VotingBallot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/VotingBallots/VotingBallot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/VotingBallots/VotingBallotManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/VotingBallots/VotingBallotManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/VotingClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/VotingClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/VotingSystems/VotingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/VotingSystems/VotingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonInterfaces/IVotingBallot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonInterfaces/IVotingBallot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/commonInterfaces/VotingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonInterfaces/VotingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/AdminManagement/VotingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TsLongLabServer/src/AdminManagement/VotingServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/VotingSystems/VotingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TsLongLabServer/src/VotingSystems/VotingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/AdminManagement/AdminApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/AdminManagement/AdminVoterApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/AdminManagement/Referee.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/AdminManagement/VotingServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Exceptions/BadCredentialsException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Exceptions/HasAlreadyVotedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Users/Candidates/Candidate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Users/Candidates/CandidateManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Users/Candidates/Pitch/TextPitch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Users/Candidates/Pitch/VideoPitch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Users/Persons/Person.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Users/Voters/Voter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Users/Voters/VoterManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Votes/InvalidVoteException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Votes/Vote.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/Votes/VoteManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/VotingBallots/VotingBallot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/VotingBallots/VotingBallotManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/VotingServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TsLongLabServer/src/VotingServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/VotingSystems/VotingMaterials.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/VotingSystems/VotingSystem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/commonInterfaces/ICandidate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/commonInterfaces/IPitch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/commonInterfaces/IVote.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/commonInterfaces/IVoter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/commonInterfaces/IVotingBallot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/commonInterfaces/IVotingSystem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TsLongLabServer/src/commonInterfaces/VotingService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../TsLongLabServer/votersData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../TsLongLabServer/votersData.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,13 +82,24 @@
       <recent name="C:\Users\caleb\Documents\Documents\SI4\MeedleWare\TpLongLab\TsLongLabClient\src" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="commonInterfaces" />
       <recent name="Users.Candidates" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="VotingClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="VotingClient" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="VotingClient" />
       <module name="TsLongLabClient" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -82,87 +124,11 @@
       <workItem from="1696352997419" duration="5013000" />
       <workItem from="1696371955251" duration="12907000" />
       <workItem from="1696533582132" duration="1690000" />
-      <workItem from="1696539635126" duration="2192000" />
+      <workItem from="1696539635126" duration="9638000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>28</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>43</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>55</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>60</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>57</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/VotingClient.java</url>
-          <line>59</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/AdminManagement/VotingServiceImpl.java</url>
-          <line>89</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

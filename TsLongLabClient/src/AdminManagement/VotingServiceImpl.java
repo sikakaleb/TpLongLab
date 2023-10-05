@@ -61,7 +61,7 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
 
     }
     @Override
-    public void castVotes(IVotingBallot ballot, List<IVote> listVotes, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException {
+    public void castVotes(IVotingBallot ballot, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException {
         /*if (voter.getHasVoted()) {
             throw new HasAlreadyVotedException("The voter has already cast their votes.");
         }
@@ -71,7 +71,7 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
         }
         voter.setHasVoted();*/
 
-        for (IVote vote : listVotes) {
+        for (IVote vote : ballot.getVotes()) {
 
             VoteManager.getInstance().recordVote(vote);
             //ballot.addVote(candidate, vote);
@@ -85,20 +85,25 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
 
     @Override
     public Referee getResults() throws InvalidVoteException {
-        if(!votingSystem.isVotingOpen()){
+        if(votingSystem.isVotingOpen()){
             System.out.println("Voting is closed");
-            return new Referee(votingSystem.getResults());
         }
         else{
-            throw new IllegalStateException("Voting is open");
+            System.out.println("Voting is "+votingSystem.isVotingOpen());
         }
+        return new Referee(votingSystem.getResults());
     }
 
-    void endVotingSession() {
+    @Override
+    public VotingSystem getVotingSystem() throws RemoteException {
+        return votingSystem;
+    }
+
+    @Override
+    public void endVotingSession() {
         // Sauvegardez les données sérialisées
         votingSystem.endVoting();
     }
-
 
 
 }

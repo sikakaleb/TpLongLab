@@ -4,6 +4,7 @@ import Exceptions.BadCredentialsException;
 import Exceptions.HasAlreadyVotedException;
 import Votes.InvalidVoteException;
 import VotingSystems.VotingMaterials;
+import VotingSystems.VotingSystem;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -24,7 +25,15 @@ public interface VotingService extends Remote {
 
     VotingMaterials authentificate(String username, String password) throws RemoteException, BadCredentialsException, HasAlreadyVotedException;
 
-    void castVotes(IVotingBallot ballot, List<IVote> listVotes, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException,RemoteException;
+    void castVotes(IVotingBallot ballot, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException,RemoteException;
 
     Referee getResults() throws RemoteException,InvalidVoteException;
+
+    VotingSystem getVotingSystem() throws RemoteException;
+
+    void endVotingSession() throws RemoteException;
+
+    void registerForResults(ClientCallback callback) throws RemoteException;
+
+    void sendResultsToAllClients() throws InvalidVoteException;
 }

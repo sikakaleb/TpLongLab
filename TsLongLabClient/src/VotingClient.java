@@ -1,18 +1,29 @@
 import AdminManagement.Referee;
-import AdminManagement.VotingServiceImpl;
 import Votes.Vote;
 import VotingBallots.VotingBallot;
 import VotingSystems.VotingMaterials;
-import commonInterfaces.ICandidate;
-import commonInterfaces.IVote;
-import commonInterfaces.IVotingBallot;
-import commonInterfaces.VotingService;
+import VotingSystems.VotingSystem;
+import commonInterfaces.*;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.*;
 
-public class VotingClient {
+public class VotingClient implements ClientCallback {
+
+    @Override
+    public void receiveResults(Referee results) {
+        System.out.println("Résultats du vote reçus!");
+        for (IVote entry : results.getResultMap()) {
+            System.out.println(entry.getCandidate().getFirstNameLastName() + ": " + entry.getScore() + " voix");
+        }
+    }
+
+    public void connectToServer(VotingService service) throws RemoteException {
+        // Supposons que vous ayez un stub pour le VotingService appelé `votingService`
+        service.registerForResults(this);
+    }
     public static void main(String[] args) {
         try {
             // Essai de communication avec le serveur RMI
@@ -23,9 +34,9 @@ public class VotingClient {
 
             Scanner scanner = new Scanner(System.in);
             System.out.println("Veuillez entrer votre numéro d'étudiant:");
-            String studentNumber = "AlicePass";
+            String studentNumber = scanner.nextLine();
             System.out.println("Veuillez entrer votre mot de passe:");
-            String password = "password1";
+            String password = scanner.nextLine();
             VotingMaterials votingMat = service.authentificate(studentNumber, password);
             System.out.println("Votre OTP est: " + votingMat.getOTP());
 
@@ -40,7 +51,6 @@ public class VotingClient {
 
             if (votingMat != null) {
                 // Demander à l'utilisateur de fournir un vote pour chaque candidat
-                List<IVote> listVotes = new ArrayList<>();
                 IVotingBallot ballot = new VotingBallot(votingMat.getVoter());
                 for (ICandidate candidate : votingMat.getCandidates()) {
                     System.out.println("------------------------------------------------------------------");
@@ -48,27 +58,32 @@ public class VotingClient {
                     System.out.println("Veuillez entrer votre vote pour " + candidate.getFirstNameLastName() + " (0-3):");
 
                     int voteValue = scanner.nextInt();
-                    //VotingServiceImpl votingService = (VotingServiceImpl) service;
+
 
                     while (voteValue < 0 || voteValue > 3) {
 
                         System.out.println("Entrée invalide. Veuillez entrer une valeur entre 0 et 3.");
                         voteValue = scanner.nextInt();
                     }
-                    IVote imvote = new Vote(candidate,voteValue);
-                    //Date datedeb = votingService.votingSystem.beginDate;
-                    //Date datefin = votingService.votingSystem.closingDate;
                     ballot.addVote(new Vote(candidate,voteValue));
                 }
-                service.castVotes(ballot, listVotes, votingMat.getVoter());
 
+                Set<IVote> listVotes = new HashSet<>();
+                listVotes = ballot.getVotes();
+                service.castVotes(ballot,votingMat.getVoter());
+                System.out.println("Voulez vous voir le cumul de votes a ce stades? (y/N).");
+                String voteValue = scanner.nextLine();
+                if(voteValue.equals("y")){
+                    service.getVotingSystem().displayResults();
+                }
+
+
+                // Terminer la session de vote
+                service.endVotingSession();
+                VotingSystem votingService =  service.getVotingSystem();
                 // Demander les résultats
                 Referee results = service.getResults();
                 if (results != null) {
-                    System.out.println("Résultats du vote :");
-                    for (IVote entry : results.getResultMap()) {
-                        System.out.println(entry.getCandidate().getFirstNameLastName() + ": " + entry.getScore() + " voix");
-                    }
                 }
             } else {
                 System.out.println("Le vote est terminé. Merci de votre participation.");

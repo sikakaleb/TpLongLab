@@ -20,10 +20,10 @@ public class Referee implements Serializable {
         this.resultMap = new ArrayList<>();
     }
 
-    public Referee(Map<ICandidate, Integer> resultMap) throws InvalidVoteException {
+    public Referee(List<Map.Entry<ICandidate, Integer>> resultMap) throws InvalidVoteException {
         this.resultMap = new ArrayList<>();
 
-        for (Map.Entry<ICandidate, Integer> entry : resultMap.entrySet()) {
+        for (Map.Entry<ICandidate, Integer> entry : resultMap) {
             IVote vote = new Vote(entry.getKey(), entry.getValue());
             this.resultMap.add(vote) ;
         }

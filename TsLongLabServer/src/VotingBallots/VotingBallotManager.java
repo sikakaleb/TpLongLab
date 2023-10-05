@@ -3,10 +3,11 @@ package VotingBallots;
 import commonInterfaces.IVoter;
 import commonInterfaces.IVotingBallot;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VotingBallotManager {
+public class VotingBallotManager implements Serializable {
     // Singleton instance
     private static VotingBallotManager instance;
 

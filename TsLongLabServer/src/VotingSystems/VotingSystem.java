@@ -11,9 +11,10 @@ import commonInterfaces.ICandidate;
 import commonInterfaces.IVoter;
 import commonInterfaces.IVotingBallot;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class VotingSystem {
+public class VotingSystem implements Serializable {
 
     private static VotingSystem instance;
     private VoterManager voterManager;
@@ -31,8 +32,10 @@ public class VotingSystem {
     // Une méthode pour vérifier si le vote est encore ouvert
     public boolean isVotingOpen() {
         Date currentDate = new Date();
-        return this.votingEnded || currentDate.before(closingDate);
+        return !(this.votingEnded || currentDate.before(closingDate)) || !VoterManager.getInstance().allVotersVoted();
     }
+
+
 
 
     public VotingSystem() {
@@ -44,8 +47,8 @@ public class VotingSystem {
         this.beginDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.beginDate);
-        calendar.add(Calendar.MINUTE, 3000);  // ajouter 30 minutes
-        Date closingDate = calendar.getTime();
+        calendar.add(Calendar.MINUTE, 1);  // ajouter 30 minutes
+        this.closingDate = calendar.getTime();
     }
 
     public static synchronized VotingSystem getInstance() {
@@ -72,8 +75,8 @@ public class VotingSystem {
     }
 
     public void endVoting() {
-        votingEnded = true;
-        displayResults();
+        this.votingEnded = true;
+        //displayResults();
     }
 
     // Récupérer le total des votes par candidat
@@ -114,14 +117,14 @@ public class VotingSystem {
         voterManager.saveDataToFile();
     }
 
-    public Map<ICandidate, Integer> getResults(){
+    public List<Map.Entry<ICandidate, Integer>> getResults(){
         Map<ICandidate, Integer> results = getTotalVotesByCandidate();
 
         // Trier les résultats
         List<Map.Entry<ICandidate, Integer>> sortedResults = new ArrayList<>(results.entrySet());
         sortedResults.sort(Map.Entry.<ICandidate, Integer>comparingByValue().reversed());
 
-        return (Map<ICandidate, Integer>) sortedResults;
+        return sortedResults;
     }
 }
 
