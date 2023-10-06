@@ -3,8 +3,6 @@ package Users.Candidates;
 import commonInterfaces.ICandidate;
 import commonInterfaces.IPitch;
 
-import java.util.Objects;
-
 public class Candidate  implements ICandidate {
     private static final long serialVersionUID = 1L;
     private int rank; // rang comme identifiant unique
@@ -50,18 +48,23 @@ public class Candidate  implements ICandidate {
         return pitch.getPitchContent();
     }
 
+    // Dans la classe qui implémente ICandidate, par exemple `Candidate`:
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Candidate candidate)) return false;
-        if (!super.equals(o)) return false;
-        return getRank() == candidate.getRank() && Objects.equals(getFirstNameLastName(), candidate.getFirstNameLastName());
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        ICandidate that = (ICandidate) obj;
+
+        return getRank() == that.getRank();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getRank(), getFirstNameLastName());
+        return getRank();
     }
+
 
     @Override
     public String toString() {

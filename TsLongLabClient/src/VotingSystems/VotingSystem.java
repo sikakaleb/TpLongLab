@@ -86,10 +86,6 @@ public class VotingSystem implements Serializable {
 
     // Afficher les candidats par ordre de votes décroissants
     public void displayResults() {
-        if(!votingEnded) {
-            throw new IllegalStateException("Voting has not ended yet!");
-        }
-
         Map<ICandidate, Integer> results = getTotalVotesByCandidate();
 
         // Trier les résultats

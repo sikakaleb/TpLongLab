@@ -19,7 +19,7 @@ public class VotingServer {
                     service.sendResultsToAllClients();
                     break;
                 }
-                Thread.sleep(6000); // Vérifiez toutes les minutes.
+                // Vérifiez toutes les minutes.
             }
         } catch (Exception e) {
             e.printStackTrace();

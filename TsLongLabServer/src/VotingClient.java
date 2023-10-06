@@ -51,7 +51,7 @@ public class VotingClient implements ClientCallback {
             System.out.println("Liste des candidats récupérés : ");
 
             for (ICandidate candidate : candidates) {
-               System.out.println(candidate.toString()); // Assurez-vous que la méthode toString() est bien définie dans l'interface ICandidate ou la classe qui l'implémente
+                System.out.println(candidate.toString()); // Assurez-vous que la méthode toString() est bien définie dans l'interface ICandidate ou la classe qui l'implémente
             }
 
             if (votingMat != null) {

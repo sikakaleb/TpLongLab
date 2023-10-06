@@ -13,11 +13,14 @@ import commonInterfaces.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class VotingServiceImpl extends UnicastRemoteObject implements VotingService {
     // Charger des données sérialisées lors de l'initialisation
+
+    private List<ClientCallback> clientCallbacks = new ArrayList<>();
     private AdminApp adminApp;
 
     private Scanner scanner = new Scanner(System.in);
@@ -103,6 +106,23 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
     public void endVotingSession() {
         // Sauvegardez les données sérialisées
         votingSystem.endVoting();
+    }
+
+    @Override
+    public void registerForResults(ClientCallback callback) throws RemoteException {
+        clientCallbacks.add(callback);
+    }
+
+    @Override
+    public void sendResultsToAllClients() throws InvalidVoteException, RemoteException {
+        Referee results = this.getResults();
+        for (ClientCallback callback : clientCallbacks) {
+            try {
+                callback.receiveResults(results);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

@@ -35,5 +35,5 @@ public interface VotingService extends Remote {
 
     void registerForResults(ClientCallback callback) throws RemoteException;
 
-    void sendResultsToAllClients() throws InvalidVoteException;
+    void sendResultsToAllClients() throws InvalidVoteException, RemoteException;
 }

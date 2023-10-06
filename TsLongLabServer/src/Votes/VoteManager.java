@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class VoteManager implements Serializable {
     private static final String VOTES_FILE = "votes.csv";  // Chemin vers le fichier CSV
@@ -33,7 +34,12 @@ public class VoteManager implements Serializable {
     }
 
     public Map<ICandidate, Integer> getVotesByCandidate() {
-        return new HashMap<>(voteSum);  // Retourner une copie pour prévenir des modifications
+        return voteSum.entrySet()
+                .stream()
+                .collect(Collectors.groupingBy(
+                        Map.Entry::getKey,
+                        Collectors.summingInt(Map.Entry::getValue)
+                ));
     }
 
     // Méthode pour écrire le vote dans un fichier CSV

@@ -11,9 +11,6 @@ public class Vote implements IVote {
     private int score;
 
     public Vote(ICandidate candidate, int score) throws InvalidVoteException {
-        if (score < 0 || score > 3) {
-            throw new InvalidVoteException("Score must be between 0 and 3");
-        }
         this.candidate = candidate;
         this.score = score;
     }

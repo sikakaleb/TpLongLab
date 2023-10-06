@@ -114,7 +114,7 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
     }
 
     @Override
-    public void sendResultsToAllClients() throws InvalidVoteException {
+    public void sendResultsToAllClients() throws InvalidVoteException, RemoteException {
         Referee results = this.getResults();
         for (ClientCallback callback : clientCallbacks) {
             try {
