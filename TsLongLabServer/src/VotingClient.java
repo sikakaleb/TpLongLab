@@ -76,9 +76,10 @@ public class VotingClient implements ClientCallback {
                 Set<IVote> listVotes = new HashSet<>();
                 listVotes = ballot.getVotes();
                 service.castVotes(ballot,votingMat.getVoter());
-                System.out.println("Voulez vous voir le cumul de votes a ce stades? (y/N).");
-                String voteValue = scanner.nextLine();
-                if(voteValue.equals("y")){
+                System.out.println("Voulez vous voir le cumul de votes a ce stades? (y/N) :");
+                String userResponse = scanner.nextLine();
+                //System.out.println(userResponse.equalsIgnoreCase("y"));
+                if(userResponse.equals("y")||1==1){
                     System.out.println("-------!Voici la ou nous en sommes a ce instant sur l'evolutions du votes !-------");
                     System.out.println("-------!Les Candidats sont au coude à coude!-------");
                     service.getVotingSystem().displayResults();
@@ -88,7 +89,7 @@ public class VotingClient implements ClientCallback {
 
 
             while (true) {
-                Thread.sleep(6000);
+                Thread.sleep(10000);
                 Referee results = service.getResults();
                 if (results != null) {
                     System.out.println("---------!Le suspens est Grand!----------");
@@ -98,7 +99,8 @@ public class VotingClient implements ClientCallback {
                     }
                     break;
                 }
-
+                System.out.println("---------!Le suspens est Grand!----------");
+                System.out.println("---------!Mais Les resultats ne sont pas encore la!----------\n\n");
             }
 
         } catch (Exception e) {
