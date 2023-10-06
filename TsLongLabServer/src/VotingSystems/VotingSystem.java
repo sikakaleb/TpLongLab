@@ -32,7 +32,7 @@ public class VotingSystem implements Serializable {
     // Une méthode pour vérifier si le vote est encore ouvert
     public boolean isVotingOpen() {
         Date currentDate = new Date();
-        return !(this.votingEnded || currentDate.before(closingDate)) || !VoterManager.getInstance().allVotersVoted();
+        return currentDate.before(closingDate) || !VoterManager.getInstance().allVotersVoted();
     }
 
 
@@ -47,7 +47,7 @@ public class VotingSystem implements Serializable {
         this.beginDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.beginDate);
-        calendar.add(Calendar.MINUTE, 1);  // ajouter 30 minutes
+        calendar.add(Calendar.MINUTE, 2);  // ajouter 30 minutes
         this.closingDate = calendar.getTime();
     }
 

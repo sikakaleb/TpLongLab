@@ -15,11 +15,12 @@ public class VotingServer {
             Naming.bind("rmi://localhost:1099/voting", service); // Associez votre service à une URL
             System.out.println("Serveur RMI lancé et prêt !");
             while (true) {
+                Thread.sleep(12000);// Vérifiez toutes les minutes.
                 if (!service.getVotingSystem().isVotingOpen()) {
                     service.sendResultsToAllClients();
                     break;
                 }
-                // Vérifiez toutes les minutes.
+
             }
         } catch (Exception e) {
             e.printStackTrace();

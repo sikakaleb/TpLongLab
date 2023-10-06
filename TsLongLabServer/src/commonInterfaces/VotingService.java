@@ -25,7 +25,7 @@ public interface VotingService extends Remote {
 
     VotingMaterials authentificate(String username, String password) throws RemoteException, BadCredentialsException, HasAlreadyVotedException;
 
-    void castVotes(IVotingBallot ballot, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException,RemoteException;
+    void castVotes(IVotingBallot ballot, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException, RemoteException, InvalidVoteException;
 
     Referee getResults() throws RemoteException,InvalidVoteException;
 

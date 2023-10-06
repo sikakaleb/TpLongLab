@@ -64,7 +64,7 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
 
     }
     @Override
-    public void castVotes(IVotingBallot ballot, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException {
+    public void castVotes(IVotingBallot ballot, IVoter Voter) throws BadCredentialsException, HasAlreadyVotedException, InvalidVoteException {
         /*if (voter.getHasVoted()) {
             throw new HasAlreadyVotedException("The voter has already cast their votes.");
         }
@@ -73,10 +73,14 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
             throw new BadCredentialsException("Invalid OTP provided.");
         }
         voter.setHasVoted();*/
+        if(!votingSystem.isVotingOpen())
+            throw new InvalidVoteException("Voting is Closed");
 
         for (IVote vote : ballot.getVotes()) {
 
-            VoteManager.getInstance().recordVote(vote);
+            if(votingSystem.isVotingOpen())
+                VoteManager.getInstance().recordVote(vote);
+
             //ballot.addVote(candidate, vote);
         }
         //sauvegarder le bulletin de vote dans le VotingBallotManager
@@ -88,13 +92,14 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
 
     @Override
     public Referee getResults() throws InvalidVoteException {
-        if(votingSystem.isVotingOpen()){
+        if(!votingSystem.isVotingOpen()){
             System.out.println("Voting is closed");
+            return new Referee(votingSystem.getResults());
         }
         else{
             System.out.println("Voting is "+votingSystem.isVotingOpen());
         }
-        return new Referee(votingSystem.getResults());
+        return null;
     }
 
     @Override

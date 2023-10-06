@@ -79,6 +79,8 @@ public class VotingClient implements ClientCallback {
                 System.out.println("Voulez vous voir le cumul de votes a ce stades? (y/N).");
                 String voteValue = scanner.nextLine();
                 if(voteValue.equals("y")){
+                    System.out.println("-------!Voici la ou nous en sommes a ce instant sur l'evolutions du votes !-------");
+                    System.out.println("-------!Les Candidats sont au coude à coude!-------");
                     service.getVotingSystem().displayResults();
                 }
 
@@ -89,7 +91,8 @@ public class VotingClient implements ClientCallback {
                 Thread.sleep(6000);
                 Referee results = service.getResults();
                 if (results != null) {
-                    System.out.println("Résultats du vote reçus!");
+                    System.out.println("---------!Le suspens est Grand!----------");
+                    System.out.println("---------!Résultats du vote sont recus!----------");
                     for (IVote entry : results.getResultMap()) {
                         System.out.println(entry.getCandidate().getFirstNameLastName() + ": " + entry.getScore() + " voix");
                     }
@@ -99,10 +102,10 @@ public class VotingClient implements ClientCallback {
             }
 
         } catch (Exception e) {
-            System.out.println("Une erreur s'est produite lors de la communication avec le serveur RMI.");
+            System.out.println("---------!Une erreur s'est produite lors de la communication avec le serveur RMI.!----------");
             e.printStackTrace();
         }finally {
-            System.out.println("Le vote est terminé. Merci de votre participation.");
+            System.out.println("------------!Le vote est terminé. Merci de votre participation.!--------------");
         }
     }
 }
